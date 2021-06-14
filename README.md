@@ -28,7 +28,17 @@ Use a given set of Pewlett Hackard's employee/HR CSV,
     - The number of retirees outnumber the number of employees by nearly 60:1.
 
 ### Additional Queries
+Two additional queries were used to obtain the exact ratio of retirees per mentor
+  ```
+  select count(title), title into mentor_count from mentorship_eligibility  group by title order by count desc;
+  ```
+and
+  ```
+  select ri.count/mc.count  as ret2ment, mc.title
+  into retire_to_mentors
+  FROM mentor_count as mc
+  JOIN retiring_titles as ri on ri.title = mc.title
+  ```
+![image](https://user-images.githubusercontent.com/79720695/121829131-ebdce500-cc7e-11eb-846d-7df325cae52b.png)
 
-```
-select count(title), title from mentorship_eligibility  group by title order by count desc;
-```
+Where the "Ret2ment" (Retirees to Mentor) ratio is (at best) 49 retirees to 1 mentor, to (at worst) 78 retirees to 1 mentor.
